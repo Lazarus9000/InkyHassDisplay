@@ -5,9 +5,12 @@ from PIL import Image, ImageFont, ImageDraw
 from font_fredoka_one import FredokaOne
 import os
 
+#Get current path
+PATH = os.path.dirname(__file__)
+
 #Read token
 f = open("token.txt", "r")
-token = f.read()
+token = f.read().strip()
 print(token)
 
 #Get state
@@ -36,9 +39,9 @@ inky_display.set_border(inky_display.WHITE)
 img = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
 draw = ImageDraw.Draw(img)
 
-font = ImageFont.truetype(FredokaOne, 22)
+font = ImageFont.truetype(FredokaOne, 16)
 
-message = "Hello, World!"
+message = Skrald
 w, h = font.getsize(Skrald)
 x = (inky_display.WIDTH / 2) - (w / 2)
 y = (inky_display.HEIGHT / 2) - (h / 2)
