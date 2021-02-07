@@ -8,6 +8,21 @@ import os
 #Get current path
 PATH = os.path.dirname(__file__)
 
+# Set up the display
+try:
+    inky_display = auto(ask_user=True, verbose=True)
+except TypeError:
+    raise TypeError("You need to update the Inky library to >= v1.1.0")
+
+
+if inky_display.resolution not in ((212, 104), (250, 122)):
+    w, h = inky_display.resolution
+    raise RuntimeError("This example does not support {}x{}".format(w, h))
+
+inky_display.set_border(inky_display.BLACK)
+
+
+#Support function for image
 def create_mask(source, mask=(inky_display.WHITE, inky_display.BLACK, inky_display.RED)):
     """Create a transparency mask.
     Takes a paletized source image and converts it into a mask
