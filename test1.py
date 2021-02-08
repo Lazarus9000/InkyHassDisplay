@@ -36,7 +36,10 @@ def create_mask(source, mask=(inky_display.WHITE, inky_display.BLACK, inky_displ
     for x in range(w):
         for y in range(h):
             p = source.getpixel((x, y))
-            if p in mask:
+            #Returns a RGBA tuple, A is used
+            #print(p[3])
+            #if p in mask
+            if p[3] > 0:
                 mask_image.putpixel((x, y), 255)
 
     return mask_image
@@ -73,21 +76,27 @@ Skrald = object["state"]
 img = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
 draw = ImageDraw.Draw(img)
 
-font = ImageFont.truetype(FredokaOne, 16)
+fontSize = 16
+
+font = ImageFont.truetype(FredokaOne, fontSize)
 
 message = Skrald
 w, h = font.getsize(Skrald)
-x = (inky_display.WIDTH / 2) - (w / 2)
-y = (inky_display.HEIGHT / 2) - (h / 2)
+#x = (inky_display.WIDTH / 2) - (w / 2)
+#y = (inky_display.HEIGHT / 2) - (h / 2)
+
+x = 48
+y = 48/2-fontSize/2
 
 draw.text((x, y), message, inky_display.RED, font)
-inky_display.set_image(img)
-inky_display.show()
+#inky_display.set_image(img)
+#inky_display.show()
 
 icon = Image.open(os.path.join(PATH, "delete.png"))
-iconmask = create_mask(icon, [inky_display.WHITE])
-img.paste(inky_display.WHITE, (10, 10), iconmask)
-
+iconmask = create_mask(icon, [inky_display.RED])
+img.paste(inky_display.BLACK, (0, 0), iconmask)
+inky_display.set_image(img)
+inky_display.show()
 #Success!
 
 
