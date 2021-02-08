@@ -51,7 +51,7 @@ token = f.read().strip()
 
 
 #sensor.restaffald_tid
-def get_sensor(sensor)
+def get_sensor(sensor):
 	#Get state
 	API_ENDPOINT = hassurl + "/api/states/" + sensor
 
@@ -82,7 +82,7 @@ fontSize = 16
 
 font = ImageFont.truetype(FredokaOne, fontSize)
 
-skraldResp = get_sensor(sensor.restaffald_tid)
+skraldResp = get_sensor("sensor.restaffald_tid")
 Skrald = skraldResp["state"]
 	
 
