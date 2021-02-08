@@ -84,9 +84,11 @@ font = ImageFont.truetype(FredokaOne, fontSize)
 
 skraldResp = get_sensor("sensor.restaffald_tid")
 Skrald = skraldResp["state"]
-	
 
-message = Skrald
+genbrugResp = get_sensor("sensor.genbrug_tid")
+genbrug = genbrugResp["state"]
+
+#message = Skrald
 #w, h = font.getsize(Skrald)
 #x = (inky_display.WIDTH / 2) - (w / 2)
 #y = (inky_display.HEIGHT / 2) - (h / 2)
@@ -94,13 +96,15 @@ message = Skrald
 x = 48
 y = 48/2-fontSize/2
 
-draw.text((x, y), message, inky_display.RED, font)
-#inky_display.set_image(img)
-#inky_display.show()
-
+draw.text((x, y), Skrald, inky_display.RED, font)
 garbage = Image.open(os.path.join(PATH, "delete.png"))
 garbagemask = create_mask(garbage)
 img.paste(inky_display.BLACK, (0, 0), garbagemask)
+
+draw.text((x, y+50), genbrug, inky_display.BLACK, font)
+genbrugIcon = create_mask(Image.open(os.path.join(PATH, "recycle.png")))
+img.paste(inky_display.BLACK, (0, 50), genbrugIcon)
+
 inky_display.set_image(img)
 inky_display.show()
 #Success!
