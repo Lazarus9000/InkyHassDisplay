@@ -22,7 +22,8 @@ if inky_display.resolution not in ((212, 104), (250, 122)):
 
 inky_display.set_border(inky_display.WHITE)
 
-#Support function for images
+
+#Support function for image
 #PNGs downloaded from https://materialdesignicons.com/ (at least the ones I have used) use the alpha channel
 #the function below converts alpha to a mask 
 #adopted from https://github.com/pimoroni/inky/blob/master/examples/phat/calendar-phat.py
@@ -33,43 +34,35 @@ def create_mask(source):
     for x in range(w):
         for y in range(h):
             p = source.getpixel((x, y))
-            #Returns a RGBA tuple, A is used
-            #print(p[3])
-            #if p in mask
-            if p[3] > 0:
+            if p in mask:
                 mask_image.putpixel((x, y), 255)
 
     return mask_image
 
-#Set hass url
-hassurl = "http://192.168.1.208:8123"
+
 #Read token
 f = open("token.txt", "r")
 token = f.read().strip()
-#print(token)
+print(token)
 
-
-
-#sensor.restaffald_tid
-def get_sensor(sensor)
-	#Get state
-	API_ENDPOINT = hassurl + "/api/states/" + sensor
-
-	# data to be sent to api 
-	data = {'Authorization':"Bearer " + token, 
-			'Content-Type':'application/json'} 
+#Get state
+API_ENDPOINT = "http://192.168.1.208:8123/api/states/sensor.restaffald_tid"
   
-	# sending post request and saving response as response object 
-	r = requests.get(url = API_ENDPOINT, headers = data)
-	#print(r)
-	#print(r.text)
+# data to be sent to api 
+data = {'Authorization':"Bearer " + token, 
+        'Content-Type':'application/json'} 
+  
+# sending post request and saving response as response object 
+r = requests.get(url = API_ENDPOINT, headers = data)
+print(r)
+print(r.text)
 
-	#Deserialize JSON
-	object = json.loads(r.text);
-	#print(object)
-	return object
-	#print(object["state"])
-	
+#Deserialize JSON
+object = json.loads(r.text);
+print(object)
+
+print(object["state"])
+Skrald = object["state"]
 
 #Draw value on display
 #inky_display = InkyPHAT("red")
@@ -78,31 +71,21 @@ def get_sensor(sensor)
 img = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
 draw = ImageDraw.Draw(img)
 
-fontSize = 16
-
-font = ImageFont.truetype(FredokaOne, fontSize)
-
-skraldResp = get_sensor(sensor.restaffald_tid)
-Skrald = skraldResp["state"]
-	
+font = ImageFont.truetype(FredokaOne, 16)
 
 message = Skrald
-#w, h = font.getsize(Skrald)
-#x = (inky_display.WIDTH / 2) - (w / 2)
-#y = (inky_display.HEIGHT / 2) - (h / 2)
-
-x = 48
-y = 48/2-fontSize/2
+w, h = font.getsize(Skrald)
+x = (inky_display.WIDTH / 2) - (w / 2)
+y = (inky_display.HEIGHT / 2) - (h / 2)
 
 draw.text((x, y), message, inky_display.RED, font)
-#inky_display.set_image(img)
-#inky_display.show()
-
-garbage = Image.open(os.path.join(PATH, "delete.png"))
-garbagemask = create_mask(garbage)
-img.paste(inky_display.BLACK, (0, 0), garbagemask)
 inky_display.set_image(img)
 inky_display.show()
+
+icon = Image.open(os.path.join(PATH, "delete.png"))
+iconmask = create_mask(icon, [inky_display.WHITE])
+img.paste(inky_display.WHITE, (10, 10), iconmask)
+
 #Success!
 
 
