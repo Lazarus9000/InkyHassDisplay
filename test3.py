@@ -106,7 +106,7 @@ def get_sensor(sensor):
 #inky_display.set_border(inky_display.WHITE)
 
 def drawGarbage():
-        print("drawing garbage")
+	print("drawing garbage")
 	img = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
 	draw = ImageDraw.Draw(img)
 
@@ -137,7 +137,7 @@ def drawGarbage():
 	draw.text((x, y+50), genbrug, inky_display.BLACK, font)
 	genbrugIcon = create_mask(Image.open(os.path.join(PATH, "recycle.png")))
 	img.paste(inky_display.BLACK, (0, 50), genbrugIcon)
-        
+
         now = datetime.now()
 
         current_time = now.strftime("%m/%d/%Y, %H:%M:%S")
