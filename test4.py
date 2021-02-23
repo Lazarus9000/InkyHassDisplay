@@ -16,7 +16,9 @@ totalViews = 2
 @buttonshim.on_press(buttonshim.BUTTON_A)
 def button_a(button, pressed):
     buttonshim.set_pixel(0x94, 0x00, 0xd3)
-	nextView()
+    global view
+    print(view)
+    nextView()
 
 
 @buttonshim.on_press(buttonshim.BUTTON_B)
@@ -101,7 +103,7 @@ def get_sensor(sensor):
 	#Deserialize JSON
 	object = json.loads(r.text);
 	#print(object)
-	return object
+	return object["state"]
 	#print(object["state"])
 	
 
@@ -109,24 +111,28 @@ def get_sensor(sensor):
 #inky_display = InkyPHAT("red")
 #inky_display.set_border(inky_display.WHITE)
 
-def drawTemo():
+def drawTemp():
 	print("drawing temp")
+	global inky_display
 	img = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
 	draw = ImageDraw.Draw(img)
 	
 	fontSize = 16
 	
 	font = ImageFont.truetype(FredokaOne, fontSize)
-    datefont = ImageFont.truetype(FredokaOne, 8)
+	datefont = ImageFont.truetype(FredokaOne, 8)
 	
 	outTemp = get_sensor("sensor.sonoff_si7021_temperature")
-	
+	print("outTemp: ")
+	print(outTemp)
 	x = 48
 	y = 48/2-fontSize/2
 	
 	draw.text((x, y), outTemp, inky_display.RED, font)
-	garbage = Image.open(os.path.join(PATH, "thermometer.png"))
-	
+	thermometer = Image.open(os.path.join(PATH, "thermometer.png"))
+	thermometermask = create_mask(thermometer)
+        img.paste(inky_display.BLACK, (0, 0), thermometermask)
+
 	now = datetime.now()
 	
 	current_time = now.strftime("%m/%d/%Y, %H:%M:%S")
@@ -143,13 +149,13 @@ def drawGarbage():
 	fontSize = 16
 
 	font = ImageFont.truetype(FredokaOne, fontSize)
-    datefont = ImageFont.truetype(FredokaOne, 8)
+	datefont = ImageFont.truetype(FredokaOne, 8)
 
-	skraldResp = get_sensor("sensor.restaffald_tid")
-	Skrald = skraldResp["state"]
+	Skrald = get_sensor("sensor.restaffald_tid")
+	#Skrald = skraldResp["state"]
 
-	genbrugResp = get_sensor("sensor.genbrug_tid")
-	genbrug = genbrugResp["state"]
+	genbrug = get_sensor("sensor.genbrug_tid")
+	#genbrug = genbrugResp["state"]
 
 	#message = Skrald
 	#w, h = font.getsize(Skrald)
@@ -178,15 +184,19 @@ def drawGarbage():
 	#Success!
 
 def nextView():
-	view++ % totalViews
-	
-	
+	global view
+	print(view)
+	view += 1
+        view = view % totalViews
+	print(view)
+	drawView(view)
 
-def drawView(i)
-	if(view == 0):
+def drawView(i):
+	print(i)
+	if(i == 0):
 		drawGarbage()
 		
-	if(view == 1):
+	if(i == 1):
 		drawTemp()
 	
 while(True):
