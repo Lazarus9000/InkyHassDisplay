@@ -80,7 +80,7 @@ def create_mask(source):
 #Set hass url
 hassurl = "http://192.168.1.208:8123"
 #Read token
-f = open("token.txt", "r")
+f = open(os.path.join(PATH, "token.txt"), "r")
 token = f.read().strip()
 #print(token)
 
