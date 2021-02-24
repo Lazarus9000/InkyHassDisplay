@@ -160,6 +160,9 @@ def drawGarbage():
 	Skrald = get_sensor("sensor.restaffald_tid")
 	#Skrald = skraldResp["state"]
 
+	if(Skrald = "2 dage"):
+                print("Der skal hentes affald imorn!")
+
 	if(Skrald = "I dag"):
 		print("Der skal hentes affald!")
 
