@@ -13,9 +13,12 @@ import buttonshim
 view = 0
 totalViews = 2
 
+garbageDay = 0
+garbageAlarm = 0
+
 @buttonshim.on_press(buttonshim.BUTTON_A)
 def button_a(button, pressed):
-    buttonshim.set_pixel(0x94, 0x00, 0xd3)
+    #buttonshim.set_pixel(0x94, 0x00, 0xd3)
     global view
     print(view)
     nextView()
@@ -23,22 +26,25 @@ def button_a(button, pressed):
 
 @buttonshim.on_press(buttonshim.BUTTON_B)
 def button_b(button, pressed):
-    buttonshim.set_pixel(0x00, 0x00, 0xff)
-
+    #buttonshim.set_pixel(0x00, 0x00, 0xff)
+    print("button B")
 
 @buttonshim.on_press(buttonshim.BUTTON_C)
 def button_c(button, pressed):
-    buttonshim.set_pixel(0x00, 0xff, 0x00)
+    #buttonshim.set_pixel(0x00, 0xff, 0x00)
+    print("button C")
 
 
 @buttonshim.on_press(buttonshim.BUTTON_D)
 def button_d(button, pressed):
-    buttonshim.set_pixel(0xff, 0xff, 0x00)
+    #buttonshim.set_pixel(0xff, 0xff, 0x00)
+    print("button D")
 
 
 @buttonshim.on_press(buttonshim.BUTTON_E)
 def button_e(button, pressed):
-    buttonshim.set_pixel(0xff, 0x00, 0x00)
+    #buttonshim.set_pixel(0xff, 0x00, 0x00)
+    print("button E")
     drawGarbage()
 
 
@@ -153,6 +159,9 @@ def drawGarbage():
 
 	Skrald = get_sensor("sensor.restaffald_tid")
 	#Skrald = skraldResp["state"]
+
+	if(Skrald = "I dag"):
+		print("Der skal hentes affald!")
 
 	genbrug = get_sensor("sensor.genbrug_tid")
 	#genbrug = genbrugResp["state"]
